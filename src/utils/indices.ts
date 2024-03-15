@@ -1,0 +1,21 @@
+export const niftyIndexNames = [
+    "Nifty Auto",
+    "Nifty Bank",
+    "Nifty Financial Services",
+    "Nifty Financial Services 25/50",
+    "Nifty Financial Services Ex-Bank",
+    "Nifty FMCG",
+    "Nifty Healthcare",
+    "Nifty IT",
+    "Nifty Media",
+    "Nifty Metal",
+    "Nifty Pharma",
+    "Nifty Private Bank",
+    "Nifty PSU Bank",
+    "Nifty Realty",
+    "Nifty Consumer Durables",
+    "Nifty Oil and Gas",
+    "Nifty MidSmall Financial Services",
+    "Nifty MidSmall Healthcare",
+    "Nifty MidSmall IT & Telecom"
+];
