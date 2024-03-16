@@ -9,7 +9,7 @@ const Layout = ({ children }: Props) => {
   const [marginLeft, setMarginLeft] = useState(0);
 
   const measureWidthHandler = useCallback((width: number) => {
-    setMarginLeft(width + 20);
+    setMarginLeft(width + 40);
   }, []);
 
   return (
