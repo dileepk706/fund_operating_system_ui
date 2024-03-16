@@ -24,8 +24,16 @@ const ConfigNavigation = () => {
         path:'/add-fund'
     },
     {
+        title:'Transactions Timeline',
+        path:'/transactions-history'
+    },
+    {
         title:'Team',
         path:'/team'
+    },
+    {
+        title:'Logout',
+        path:'/logout'
     },
   ],[])
   return data

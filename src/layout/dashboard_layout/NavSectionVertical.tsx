@@ -4,6 +4,8 @@ import ConfigNavigation from "./ConfigNavigation";
 import Scrollbar from "../../components/scroll_bar/Scrollbar";
 import useScreenSize from "../../hooks/useScreenSize";
 import useBoolean from "../../hooks/useBoolean";
+import { getRoutes } from "../../routes/routes";
+import { useRouter } from "../../hooks/useRoutes";
 
 const NavSectionVertical = () => {
   const navContent = ConfigNavigation();
@@ -82,7 +84,13 @@ type OptionProps = {
   nav: Record<string, any>;
 };
 const Option = ({ nav }: OptionProps) => {
+  const routes = useRouter();
   const { pathname } = useLocation();
+
+  if (pathname === ("/"+getRoutes().logout)) {
+    localStorage.removeItem("token");
+    routes.push(getRoutes().login);
+  }
   return (
     <Link
       style={{

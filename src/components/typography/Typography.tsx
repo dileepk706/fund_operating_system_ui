@@ -1,5 +1,5 @@
 type Props = {
-  variant?: "caption" | "subtitle1" | "subtitle2" | "body1" | "body2";
+  variant?: Variant;
   style?: React.CSSProperties;
   children: React.ReactNode | string;
   noWrap?: boolean;
@@ -8,7 +8,7 @@ const Typography = ({ variant, style, children, noWrap }: Props) => {
   return (
     <span
       style={{
-        ...getFontStyle(variant),
+        ...fontVariants(variant),
         ...style,
         whiteSpace: noWrap ? "nowrap" : "wrap",
       }}
@@ -21,7 +21,7 @@ const Typography = ({ variant, style, children, noWrap }: Props) => {
 
 export default Typography;
 
-function getFontStyle(t?: string) {
+export function fontVariants(t?: Variant) {
   const body1 = {
     fontSize: "1.4rem",
     fontWeight: "lighter",
@@ -41,6 +41,10 @@ function getFontStyle(t?: string) {
     fontSize: "1.2rem",
     fontWeight: "bold",
   };
+  const captionUltra = {
+    fontSize: "0.9rem",
+    fontWeight: "lighter",
+  };
   if (t === "subtitle1") {
     return subtitle1;
   }
@@ -53,5 +57,10 @@ function getFontStyle(t?: string) {
   if (t === "body2") {
     return body2;
   }
+  if(t==='captionUltra'){
+    return captionUltra
+  }
   return {};
 }
+export type Variant= "caption" | "subtitle1" | "subtitle2" | "body1" | "body2"|"captionUltra";
+
