@@ -1,50 +1,78 @@
+import { useState } from "react";
+import "./style.css";
+import { ColorSchema } from "../../theme";
+
 type Props = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  label: string;
-  size?: "small" | "medium" | "large";
-  style?:React.CSSProperties
+  children: React.ReactNode | string;
+  size?: Zise;
+  style?: React.CSSProperties;
+  variant?: ButtonVariant;
 };
 
-const Button = ({ onClick, label, size,style }: Props) => {
-  const Size = size === "small" ? s : size === "large" ? l : m;
+const Button = ({ onClick, children, size, style, variant }: Props) => {
+  const [isActive, setIsActive] = useState(false);
+
+  const Size =
+    size === "small" ? s : size === "large" ? l : size === "xsmall" ? xs : m;
+
+  
+  const handleMouseDown = () => {
+    setIsActive(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsActive(false);
+  };
 
   return (
     <button
       style={{
-        backgroundColor: "#4CAF50",
+        backgroundColor: ColorSchema().INFO.main,
         border: "none",
         color: "white",
         textAlign: "center",
         textDecoration: "none",
-        display: "inline-block",
+        transform: isActive ? "scale(0.95)" : "scale(1)",
+        transition: "transform 0.1s",
         cursor: "pointer",
-        borderRadius: "5px",
+        // borderRadius: "5px",
         ...Size,
         ...style,
       }}
       onClick={onClick}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
     >
-      {label}
+      {children}
     </button>
   );
 };
 
 export default Button;
 
-const s = {
+export const s = {
   padding: "7px 16px",
   margin: "4px 2px",
   fontSize: "16px",
 };
 
-const l = {
+export const l = {
   padding: "20px 50px",
   margin: "4px 2px",
   fontSize: "20px",
 };
 
-const m = {
+export const m = {
   padding: "15px 32px",
   margin: "4px 2px",
   fontSize: "16px",
 };
+
+export const xs = {
+  padding: "5px 13px",
+  fontSize: "10px",
+};
+
+export type Zise = "small" | "medium" | "large" | "xsmall";
+export type ButtonVariant = "soft" | "text";

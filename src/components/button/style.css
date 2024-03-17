@@ -1,0 +1,19 @@
+
+.button {
+    background-color: #534caf;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .button:hover {
+    display: none;
+  }
+  
+  .button:active {
+    background-color: #3e8e41;
+  }
