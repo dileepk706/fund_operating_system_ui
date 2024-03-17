@@ -10,7 +10,7 @@ api.interceptors.request.use(
   async (config) => {
     const idToken = localStorage.getItem("token");
     if (idToken) {
-      config.headers.accesstoken = idToken;
+      config.headers.accesstoken = "bearer "+idToken;
     }
     return config;
   },
