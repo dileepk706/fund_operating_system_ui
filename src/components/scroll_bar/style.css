@@ -1,8 +1,7 @@
 
 /* Works in some WebKit-based browsers like Chrome and Safari */
 body::-webkit-scrollbar {
-    display: none;
-    width: 12px;
+    width: 5px;
   }
   
   body::-webkit-scrollbar-thumb {

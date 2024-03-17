@@ -17,7 +17,11 @@ const NavVertical = ({ measureWidthHandler }: Props) => {
   }, []);
 
   return (
-    <nav className="flex-srink-1  " style={{ position: "fixed" }} ref={navRef}>
+    <nav
+      className="flex-srink-1  "
+      style={{ position: "fixed", backgroundColor: "white", zIndex: 999 }}
+      ref={navRef}
+    >
       <NavSectionVertical />
     </nav>
   );

@@ -3,14 +3,16 @@ type Props = {
   style?: React.CSSProperties;
   children: React.ReactNode | string;
   noWrap?: boolean;
+  gutterBottom?:boolean;
 };
-const Typography = ({ variant, style, children, noWrap }: Props) => {
+const Typography = ({ variant, style, children, noWrap,gutterBottom }: Props) => {
   return (
     <span
       style={{
         ...fontVariants(variant),
         ...style,
         whiteSpace: noWrap ? "nowrap" : "wrap",
+        marginBottom:gutterBottom?'10px':0,
       }}
     >
       {" "}
@@ -32,17 +34,21 @@ export function fontVariants(t?: Variant) {
     fontWeight: "",
   };
 
-  const subtitle1 = {
+  const subtitle2 = {
     fontSize: "1.1rem",
     fontWeight: "bold",
   };
 
-  const subtitle2 = {
+  const subtitle1 = {
     fontSize: "1.2rem",
     fontWeight: "bold",
   };
   const captionUltra = {
     fontSize: "0.9rem",
+    fontWeight: "lighter",
+  };
+  const small = {
+    fontSize: "0.7rem",
     fontWeight: "lighter",
   };
   if (t === "subtitle1") {
@@ -60,7 +66,10 @@ export function fontVariants(t?: Variant) {
   if(t==='captionUltra'){
     return captionUltra
   }
+  if(t==='small'){
+    return small
+  }
   return {};
 }
-export type Variant= "caption" | "subtitle1" | "subtitle2" | "body1" | "body2"|"captionUltra";
+export type Variant= "caption" | "subtitle1" | "subtitle2" | "body1" | "body2"|"captionUltra"|"small";
 

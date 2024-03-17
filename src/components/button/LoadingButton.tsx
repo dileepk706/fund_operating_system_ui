@@ -1,134 +1,60 @@
+import { useState } from "react";
+import { Zise, l, m, s, xs } from "./Button";
+import { ColorSchema } from "../../theme";
+import { Loading } from "../Icons/Icons";
+
 type Props = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  label: string;
-  size?: "small" | "medium" | "large";
+  children: React.ReactNode | string;
+  size?: Zise;
   style?: React.CSSProperties;
   loading: boolean;
+  loadingButtonWidth?: any;
 };
 
-const LoadingButton = ({ onClick, label, size, style, loading }: Props) => {
-  const Size = size === "small" ? s : size === "large" ? l : m;
+const LoadingButton = ({
+  onClick,
+  children,
+  size,
+  style,
+  loading,
+  loadingButtonWidth,
+}: Props) => {
+  const [isActive, setIsActive] = useState(false);
 
+  const Size =
+    size === "small" ? s : size === "large" ? l : size === "xsmall" ? xs : m;
+
+  const handleMouseDown = () => {
+    setIsActive(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsActive(false);
+  };
   return (
     <button
       style={{
-        backgroundColor: "#4CAF50",
+        backgroundColor:ColorSchema().INFO.main,
         border: "none",
         color: "white",
         textAlign: "center",
         textDecoration: "none",
         display: "inline-block",
         cursor: "pointer",
-        borderRadius: "5px",
+        transform: isActive ? "scale(0.95)" : "scale(1)",
+        transition: "transform 0.1s",
         ...Size,
         ...style,
       }}
       onClick={onClick}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      disabled={loading}
     >
-      {loading ? <Loading  width={1.5} /> : label}
+      {loading ? <Loading width={loadingButtonWidth || 1.5} /> : children}
     </button>
   );
 };
 
 export default LoadingButton;
-
-const s = {
-  padding: "7px 16px",
-  margin: "4px 2px",
-  fontSize: "16px",
-};
-
-const l = {
-  padding: "20px 50px",
-  margin: "4px 2px",
-  fontSize: "20px",
-};
-
-const m = {
-  padding: "15px 32px",
-  margin: "4px 2px",
-  fontSize: "16px",
-};
-
-type LoadingProps = {
-  width?: any;
-};
-
-export const Loading = ({ width }: LoadingProps) => {
-  width = width || 1;
-  const height = width || 1;
-
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={`${width}em`}
-      height={`${height}em`}
-      viewBox="0 0 24 24"
-    >
-      <g>
-        <rect width="2" height="5" x="11" y="1" fill="white" opacity="0.14" />
-        <rect
-          width="2"
-          height="5"
-          x="11"
-          y="1"
-          fill="white"
-          opacity="0.29"
-          transform="rotate(30 12 12)"
-        />
-        <rect
-          width="2"
-          height="5"
-          x="11"
-          y="1"
-          fill="white"
-          opacity="0.43"
-          transform="rotate(60 12 12)"
-        />
-        <rect
-          width="2"
-          height="5"
-          x="11"
-          y="1"
-          fill="white"
-          opacity="0.57"
-          transform="rotate(90 12 12)"
-        />
-        <rect
-          width="2"
-          height="5"
-          x="11"
-          y="1"
-          fill="white"
-          opacity="0.71"
-          transform="rotate(120 12 12)"
-        />
-        <rect
-          width="2"
-          height="5"
-          x="11"
-          y="1"
-          fill="white"
-          opacity="0.86"
-          transform="rotate(150 12 12)"
-        />
-        <rect
-          width="2"
-          height="5"
-          x="11"
-          y="1"
-          fill="white"
-          transform="rotate(180 12 12)"
-        />
-        <animateTransform
-          attributeName="transform"
-          calcMode="discrete"
-          dur="0.75s"
-          repeatCount="indefinite"
-          type="rotate"
-          values="0 12 12;30 12 12;60 12 12;90 12 12;120 12 12;150 12 12;180 12 12;210 12 12;240 12 12;270 12 12;300 12 12;330 12 12;360 12 12"
-        />
-      </g>
-    </svg>
-  );
-};

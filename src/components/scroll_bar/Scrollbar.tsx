@@ -14,6 +14,7 @@ const Scrollbar = ({children,height,width,style}:Props) => {
       style={{
         height: height || "auto",
         width: width || "auto",
+        minWidth:width,
         overflowX: width ? "scroll" : "visible",
         overflowY: height ? "scroll" : "visible",
         ...style
