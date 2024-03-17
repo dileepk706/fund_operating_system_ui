@@ -21,7 +21,6 @@ function Modal({ children, open, onClose }: Props) {
           bottom: 0,
           background: "rgba(0, 0, 0, 0.5)",
           zIndex: 99999,
-          opacity: 0.2,
         }}
         onClick={onClose}
       ></div>

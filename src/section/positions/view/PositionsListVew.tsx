@@ -1,4 +1,3 @@
-import Button from "../../../components/button/Button";
 import Card from "../../../components/cards/Card";
 import PageHeadline from "../../../components/headline/PageHeadline";
 import NotFound from "../../../components/no-data/NotFound";
@@ -15,11 +14,11 @@ const PositionsListVew = () => {
   return (
     <>
       <PageHeadline heading="Positions" />
-      <PositionsTabletoolbar/>
+      <PositionsTabletoolbar />
       <Card>
         <Table>
           <TableHead labels={labels} />
-          {positions && positions.length  ? (
+          {positions && positions.length ? (
             positions.map((e) => <PotionsTableRow key={e._id} row={e} />)
           ) : (
             <NotFound />
@@ -41,8 +40,8 @@ const labels = [
   "Target",
   "SL",
   "LTP",
-  "unit-PL",
-  "total-PL",
+  "Unit-PL",
+  "Total-PL",
   "ROI",
   "Action",
 ];

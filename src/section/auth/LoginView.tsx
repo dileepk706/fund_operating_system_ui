@@ -83,10 +83,9 @@ const LoginView = () => {
             <LoadingButton
               style={{ backgroundColor: ColorSchema().SUCCESS.main }}
               size="small"
-              label="Submit"
               onClick={onSubmit}
               loading={loading.value}
-            ></LoadingButton>
+            >Submit</LoadingButton>
             <CustomLink to={`/${getRoutes().signUp}`} >Sign up</CustomLink>
           </form>
         </div>

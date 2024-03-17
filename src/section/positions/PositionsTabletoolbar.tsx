@@ -1,14 +1,27 @@
-import Button from "../../components/button/Button"
-import TableToolbar from "../../components/table/TableToolbar"
+import Button from "../../components/button/Button";
+import Modal from "../../components/modal/CustomeModal";
+import TableToolbar from "../../components/table/TableToolbar";
+import useBoolean from "../../hooks/useBoolean";
+import AddEditPosition from "./AddEditPosition";
 
 const PositionsTabletoolbar = () => {
-  return (
-    <TableToolbar>
-      <Button size="small" style={{ marginBottom: 20 }}>
-        Add Position
-      </Button>
-    </TableToolbar>
-  );
-}
+  const createPositionOpen = useBoolean();
 
-export default PositionsTabletoolbar
+  return (
+    <>
+      <TableToolbar>
+        <Button size="small" onClick={createPositionOpen.onTrue}  >
+          Add Position
+        </Button>
+      </TableToolbar>
+      <Modal
+        open={createPositionOpen.value}
+        onClose={createPositionOpen.onFalse}
+      >
+        <AddEditPosition title="Create Position" />
+      </Modal>
+    </>
+  );
+};
+
+export default PositionsTabletoolbar;

@@ -8,7 +8,7 @@ function Card({ children ,style}: Props) {
   return (
     <div
       style={{
-        borderRadius: 10,
+        borderRadius: 3,
         backgroundColor: "white",
         boxShadow: "1px 1px 20px rgba(194, 190, 190, 0.99)",
         ...style

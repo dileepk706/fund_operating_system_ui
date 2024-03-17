@@ -9,6 +9,7 @@ const TableToolbar = ({ children }: Props) => {
         justifyContent: "end",
         alignItems: "center",
         gap: "30px",
+        marginBottom: 20 
       }}
     >
       {children}
