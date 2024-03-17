@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async"
+import PositionsListVew from "../../section/positions/view/PositionsListVew"
 
 const Positions = () => {
   return (
@@ -6,6 +7,7 @@ const Positions = () => {
     <Helmet>
       <title>Positions</title>
     </Helmet>
+    <PositionsListVew/>
     </>
   )
 }
