@@ -14,17 +14,20 @@ const SignUpView = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [name, setName] = useState("");
+
   const loading = useBoolean();
-  const router=useRouter()
+  const router = useRouter();
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
     setError("");
     loading.onTrue();
     try {
-      const { data } = await api.post(APIs().login, {
+      const { data } = await api.post(APIs().signup, {
         email,
         password,
+        name,
       });
       localStorage.setItem("token", data.result.token);
       loading.onFalse();
@@ -40,7 +43,7 @@ const SignUpView = () => {
     <div
       style={{
         display: "flex",
-        flexDirection:'column',
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         width: "100vw",
@@ -48,6 +51,14 @@ const SignUpView = () => {
       }}
     >
         <Typography variant="subtitle1" >Sign up</Typography>
+      {error && (
+        <Typography
+          style={{ margin: "5px 0", color: "red" }}
+          variant="captionUltra"
+        >
+          {error}
+        </Typography>
+      )}
       <div style={{}}>
         <div
           style={{
@@ -66,10 +77,16 @@ const SignUpView = () => {
           >
             <Input
               onChange={(e) => {
+                setName(e.target.value);
+              }}
+              placeholder="name"
+              type="text"
+            />
+            <Input
+              onChange={(e) => {
                 setEmail(e.target.value);
               }}
               placeholder="Email"
-              error={error}
               type="email"
             />
             <Input
@@ -87,7 +104,7 @@ const SignUpView = () => {
               onClick={onSubmit}
               loading={loading.value}
             ></LoadingButton>
-            <CustomLink to={`/${getRoutes().login}`} >login</CustomLink>
+            <CustomLink to={`/${getRoutes().login}`}>Login</CustomLink>
           </form>
         </div>
       </div>
@@ -96,3 +113,4 @@ const SignUpView = () => {
 };
 
 export default SignUpView;
+

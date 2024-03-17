@@ -1,5 +1,6 @@
-import { memo, useCallback,  useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import NavVertical from "./NavVertical";
+import useScreenSize from "../../hooks/useScreenSize";
 
 type Props = {
   children: React.ReactNode;
@@ -9,20 +10,41 @@ const Layout = ({ children }: Props) => {
   const [marginLeft, setMarginLeft] = useState(0);
 
   const measureWidthHandler = useCallback((width: number) => {
-    setMarginLeft(width + 40);
+    setMarginLeft(width);
   }, []);
 
+  const screen = useScreenSize();
+
+  const [width, setWidth] = useState("90%");
+  console.log({ screen });
+
+  useEffect(() => {
+    if (screen === "xxl") setWidth("1720px");
+    if (screen === "xl") setWidth("1400px");
+    if (screen === "large") setWidth("900PX");
+    if (screen === "medium") setWidth("576px");
+    if (screen === "small") setWidth("90%");
+  }, [screen]);
   return (
     <div className="flex gap-1 ">
       <NavVertical measureWidthHandler={measureWidthHandler} />
       <div
-        className="flex-col gap-1 "
         style={{
-          marginLeft,
-          padding: 10,
+          margin: `40px 0px 0px ${
+            screen === "small" ? "0px" : marginLeft + "px"
+          }`,
+          height: "100%",
+          width: "100%",
         }}
+        className="flex justify-center"
       >
-        {children}
+        <div
+          style={{
+            width: width,
+          }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

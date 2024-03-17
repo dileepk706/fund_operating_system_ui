@@ -31,6 +31,7 @@ const NavSectionVertical = () => {
         width: openMobileMenu.value ? "auto" : 0,
         overflowX: "hidden",
         paddingTop: 10,
+        backgroundColor:'white'
       }}
     >
       <div style={{ position: "relative", width: "100%" }}>
@@ -50,7 +51,7 @@ const NavSectionVertical = () => {
   );
   const largeScreenNav = (
     <Scrollbar
-      height={screen === "small" ? 0 : "100vh"}
+      // height={screen === "small" ? 0 : "100vh"}
       style={screen === "small" ? mobileStyle : defaultStyle}
     >
       <div className="flex-col gap-1">
@@ -103,7 +104,7 @@ const Option = ({ nav }: OptionProps) => {
       <div
         style={{
           padding: "1rem 4rem 1rem 1rem ",
-          borderRadius: 10,
+          // borderRadius: 10,
         }}
         className={`option flex justify-start align-center ${
           pathname === nav.path && "active"
