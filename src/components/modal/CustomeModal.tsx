@@ -4,9 +4,10 @@ type Props = {
   children: React.ReactNode;
   open: boolean;
   onClose: () => void;
+  isSubmitting?: boolean;
 };
 
-function Modal({ children, open, onClose }: Props) {
+function Modal({ children, open, onClose, isSubmitting }: Props) {
   if (!open) {
     return null;
   }
@@ -22,7 +23,9 @@ function Modal({ children, open, onClose }: Props) {
           background: "rgba(0, 0, 0, 0.5)",
           zIndex: 99999,
         }}
-        onClick={onClose}
+        onClick={() => {
+          !isSubmitting && onClose();
+        }}
       ></div>
       <div
         style={{

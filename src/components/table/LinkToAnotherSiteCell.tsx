@@ -7,12 +7,11 @@ type Props = {
 };
 function LinkToAnotherSiteCell({ link, text }: Props) {
   const handleOpenLink = (url: string) => {
-    console.log(url);
-
+    if(!link) return
     window.open(url, "_blank", "noopener,noreferrer");
   };
   return (
-    <CustomLink to="">
+    <CustomLink  to="">
       <div
         onClick={() => {
           handleOpenLink(link);

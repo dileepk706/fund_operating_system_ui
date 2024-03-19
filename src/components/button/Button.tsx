@@ -8,9 +8,10 @@ type Props = {
   size?: Zise;
   style?: React.CSSProperties;
   variant?: ButtonVariant;
+  disabled?:boolean
 };
 
-const Button = ({ onClick, children, size, style, variant }: Props) => {
+const Button = ({ onClick, children, size, style,disabled, variant }: Props) => {
   const [isActive, setIsActive] = useState(false);
 
   const Size =
@@ -35,11 +36,12 @@ const Button = ({ onClick, children, size, style, variant }: Props) => {
         textDecoration: "none",
         transform: isActive ? "scale(0.95)" : "scale(1)",
         transition: "transform 0.1s",
-        cursor: "pointer",
+        cursor: disabled?"not-allowed":"pointer",
         // borderRadius: "5px",
         ...Size,
         ...style,
       }}
+      disabled={disabled}
       onClick={onClick}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}

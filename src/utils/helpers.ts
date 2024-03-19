@@ -35,3 +35,4 @@ export const isValidURL = (url: string): boolean => {
   const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
   return urlPattern.test(url);
 };
+

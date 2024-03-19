@@ -41,7 +41,7 @@ const LoadingButton = ({
         textAlign: "center",
         textDecoration: "none",
         display: "inline-block",
-        cursor: "pointer",
+        cursor: loading?"not-allowed":"pointer",
         transform: isActive ? "scale(0.95)" : "scale(1)",
         transition: "transform 0.1s",
         ...Size,

@@ -16,8 +16,6 @@ const Layout = ({ children }: Props) => {
   const screen = useScreenSize();
 
   const [width, setWidth] = useState("90%");
-  console.log({ screen });
-
   useEffect(() => {
     if (screen === "xxl") setWidth("1720px");
     if (screen === "xl") setWidth("1400px");
@@ -26,7 +24,11 @@ const Layout = ({ children }: Props) => {
     if (screen === "small") setWidth("90%");
   }, [screen]);
   return (
-    <div className="flex gap-1 ">
+    <div className="flex gap-1 "
+    style={{
+      backgroundColor:'whitesmoke'
+    }}
+    >
       <NavVertical measureWidthHandler={measureWidthHandler} />
       <div
         style={{
@@ -35,6 +37,7 @@ const Layout = ({ children }: Props) => {
           }`,
           height: "100%",
           width: "100%",
+          paddingBottom:'10px'
         }}
         className="flex justify-center"
       >
