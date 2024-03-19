@@ -1,20 +1,33 @@
+import { useState } from "react";
 import Card from "../../../components/cards/Card";
 import PageHeadline from "../../../components/headline/PageHeadline";
 import NotFound from "../../../components/no-data/NotFound";
 import Table from "../../../components/table/Table";
 import TableHead from "../../../components/table/TableHead";
 import TablePagination from "../../../components/table/TablePagination";
+import { Position } from "../../../types/position/position";
 import PositionsTabletoolbar from "../PositionsTabletoolbar";
 import PotionsTableRow from "../PostionsTableRow";
 import useGetPositions from "../useGetpositions";
+import useBoolean from "../../../hooks/useBoolean";
 
 const PositionsListVew = () => {
-  const { positions } = useGetPositions();
+  const refresh = useBoolean();
+
+  const { positions, setPositions } = useGetPositions({
+    refresh: refresh.value,
+  });
+  const setPositionsHandler = (data: Position) => {
+    setPositions([...[data], ...positions]);
+  };
 
   return (
     <>
       <PageHeadline heading="Positions" />
-      <PositionsTabletoolbar />
+      <PositionsTabletoolbar
+        setRefresh={refresh.onToggle}
+        setPosition={setPositionsHandler}
+      />
       <Card>
         <Table>
           <TableHead labels={labels} />
@@ -24,7 +37,13 @@ const PositionsListVew = () => {
             <NotFound />
           )}
         </Table>
-        <TablePagination />
+        <TablePagination
+          length={positions.length}
+          page={1}
+          rowsPerPage={10}
+          nextDisabled
+          prevDisabled
+        />
       </Card>
     </>
   );
@@ -34,14 +53,15 @@ export default PositionsListVew;
 
 const labels = [
   "Stock",
-  "Sector",
-  "Buying Price",
   "Date",
+  "Buying Price",
+  "Quantity",
+  "LTP",
+  "T-PL",
+  "U-PL",
+  "ROI",
   "Target",
   "SL",
-  "LTP",
-  "Unit-PL",
-  "Total-PL",
-  "ROI",
+  "Sector",
   "Action",
 ];

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import Input from "../../components/inputs/Input";
 import LoadingButton from "../../components/button/LoadingButton";
 import useBoolean from "../../hooks/useBoolean";
@@ -6,6 +6,12 @@ import { ColorSchema } from "../../theme";
 import Typography from "../../components/typography/Typography";
 import { checkWhiteSpace, isValidURL } from "../../utils/helpers";
 import { Position } from "../../types/position/position";
+import { api } from "../../api/axios";
+import { APIs } from "../../api/APIs";
+import AutoComplete from "../../components/auto-complete/AutoComplete";
+import { NSE_REG_STOCKS, niftyIndexNames } from "../../utils/indices";
+import Select from "../../components/inputs/Select";
+import { AxiosResponse } from "axios";
 
 type Props = {
   disableStockEdit?: boolean;
@@ -18,6 +24,8 @@ type Props = {
   title: string;
   currentPosition?: Position;
   closing?: boolean;
+  returnData?: (d: Position) => void;
+  otherFunctions?: () => void;
 };
 const AddEditPosition = ({
   disableStockEdit,
@@ -30,6 +38,8 @@ const AddEditPosition = ({
   title,
   currentPosition,
   closing,
+  otherFunctions,
+  returnData,
 }: Props) => {
   type s = { value: any; error: string };
   const formSubmitLoading = useBoolean();
@@ -40,6 +50,15 @@ const AddEditPosition = ({
   const [sl, setSL] = useState<any>({ value: 0, error: "" });
   const [notes, setNotes] = useState<s>({ value: "", error: "" });
   const [qty, setQty] = useState({ value: 0, error: "" });
+  const [error, setError] = useState("");
+
+  const setStockNameHandler = useCallback((v: string) => {
+    setStock({ value: v, error: "" });
+  }, []);
+
+  const setSectorNameHandler = useCallback((v: string) => {
+    setSector({ value: v, error: "" });
+  }, []);
 
   useEffect(() => {
     if (currentPosition) {
@@ -55,6 +74,52 @@ const AddEditPosition = ({
 
   const onsubmit = async (e: any) => {
     e.preventDefault();
+    setError("");
+
+    if (checkWhiteSpace(stock.value)) {
+      setStock({ value: "", error: "stock is required field" });
+      return;
+    }
+    if (checkWhiteSpace(sector.value)) {
+      setSector({ value: "", error: "sector is required field" });
+      return;
+    }
+    if (!qty.value) {
+      setQty({ value: 0, error: "quantity is required field" });
+      return;
+    }
+    if (qty.value < 0) {
+      setQty({ value: 0, error: "value should be greater than 0" });
+      return;
+    }
+    if (target.value < 0) {
+      setTarget({ value: 0, error: "value should be greater than 0" });
+      return;
+    }
+    if (sl.value < 0) {
+      setSL({ value: 0, error: "value should be greater than 0" });
+      return;
+    }
+    if (chartLink.value && !isValidURL(chartLink.value)) {
+      setChartLink({
+        value: "",
+        error: "Invalid URL. Please enter a valid URL",
+      });
+      return;
+    }
+    let found = false;
+    NSE_REG_STOCKS.forEach((e) => {
+      if (stock.value === e) {
+        found = true;
+      }
+    });
+    if (!found) {
+      setStock({
+        value: stock.value,
+        error: "please select correct stock name",
+      });
+      return;
+    }
     const Stock = {
       stock: stock.value,
       sector: sector.value,
@@ -64,29 +129,24 @@ const AddEditPosition = ({
       notes: notes.value,
       qty: qty.value,
     };
-    formSubmitLoading.onTrue();
-    if (checkWhiteSpace(stock.value)) {
-      setStock({ value: "", error: "stock is required field" });
+    try {
+      formSubmitLoading.onTrue();
+      let res: AxiosResponse<any, any>;
+      if (currentPosition) {
+        res = await api.put(APIs.updatePosition(currentPosition._id), Stock);
+      } else {
+        res = await api.post(APIs.createPosition, Stock);
+      }
+      const { data } = res;
+      returnData && returnData(data.result);
+      otherFunctions && otherFunctions();
+      setError("");
       formSubmitLoading.onFalse();
-      return;
-    }
-    if (checkWhiteSpace(sector.value)) {
-      setSector({ value: "", error: "sector is required field" });
+    } catch (error: any) {
+      console.log(error.message);
+      setError(error.message);
       formSubmitLoading.onFalse();
-      return;
-    }
-    if (chartLink.value && !isValidURL(chartLink.value)) {
-      setChartLink({
-        value: "",
-        error: "Invalid URL. Please enter a valid URL",
-      });
-      formSubmitLoading.onFalse();
-      return;
-    }
-    if (!qty.value) {
-      setQty({ value: 0, error: "quantity is required field" });
-      formSubmitLoading.onFalse();
-      return;
+      // otherFunctions && otherFunctions();
     }
   };
   return (
@@ -107,28 +167,30 @@ const AddEditPosition = ({
       </Typography>
       <div style={{ marginTop: 10 }}>
         <form onSubmit={onsubmit}>
-          <Input
-            onChange={(e) => {
-              setStock({ value: e.target.value, error: "" });
-            }}
-            placeholder="Stock"
-            type="text"
+          {error && (
+            <Typography variant="captionUltra" style={{ color: "red" }}>
+              {error}
+            </Typography>
+          )}
+
+          <AutoComplete
+            placeHolder="Stock"
+            itemsStringArray={NSE_REG_STOCKS}
+            setState={setStockNameHandler}
             value={stock.value}
+            disable={disableStockEdit}
             error={stock.error}
-            disabled={disableStockEdit}
           />
 
-          <Input
-            onChange={(e) => {
-              setSector({ value: e.target.value, error: "" });
-            }}
-            placeholder="Sector"
-            type="text"
+          <Select
+            itemsArray={niftyIndexNames}
+            setSate={setSectorNameHandler}
             value={sector.value}
-            error={sector.error}
+            style={{ margin: "10px 0" }}
             disabled={disableSectorEdit}
+            placeholder="Sector"
+            error={sector.error}
           />
-
           <Input
             onChange={(e) => {
               setQty({ value: parseFloat(e.target.value), error: "" });
@@ -167,7 +229,7 @@ const AddEditPosition = ({
               setChartLink({ value: e.target.value, error: "" });
             }}
             placeholder="Chart URL:http://example.com"
-            type="text"
+            type="url"
             value={chartLink.value}
             error={chartLink.error}
             disabled={disableChartEdit}
@@ -220,4 +282,4 @@ const AddEditPosition = ({
   );
 };
 
-export default AddEditPosition;
+export default memo(AddEditPosition);

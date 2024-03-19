@@ -11,23 +11,34 @@ import LoadingButton from "../../components/button/LoadingButton";
 import { CloseIcon, EditIcon, RefreshIcon } from "../../components/Icons/Icons";
 import Tooltip from "../../components/tooltip/Tooltip";
 import ClosePosition from "./ClosePosition";
-import { fCurrency, fPercent } from "../../utils/formatNumbers";
+import { fCurrency, fNumber, fPercent } from "../../utils/formatNumbers";
 import { getColorOfValues } from "../../utils/helpers";
-import CustomLink from "../../components/link/Link";
 import LinkToAnotherSiteCell from "../../components/table/LinkToAnotherSiteCell";
+import { api } from "../../api/axios";
+import { APIs } from "../../api/APIs";
+import { useState } from "react";
 
 type Props = {
   row: Position;
 };
 const PotionsTableRow = ({ row }: Props) => {
   const getCurrentLtpLoading = useBoolean();
-  const ltpReceivedTrue = useBoolean();
+  const [position, setPosition] = useState<Position>(row);
 
-  const getCurrentLtpHandler = () => {
+  const getCurrentLtpHandler = async () => {
     getCurrentLtpLoading.onTrue();
-    setTimeout(() => {
-      ltpReceivedTrue.onTrue();
-    }, 1000);
+    try {
+      const { data } = await api.get(
+        APIs.getWebScrappedRealTimeStockDetailsAndUpdatePosition(
+          position.stock,
+          position._id
+        )
+      );
+      setPosition(data.result);
+      getCurrentLtpLoading.onFalse();
+    } catch (error) {
+      getCurrentLtpLoading.onFalse();
+    }
   };
 
   const editPositionModal = useBoolean();
@@ -38,39 +49,28 @@ const PotionsTableRow = ({ row }: Props) => {
       <TableRow>
         {/* "Stock", */}
         <TableCell>
-          <LinkToAnotherSiteCell link={row.chartLink || ""} text={row.stock} />
+          <LinkToAnotherSiteCell
+            link={position.chartLink || ""}
+            text={position.stock}
+          />
         </TableCell>
 
-        {/* "Sector", */}
+        {/* "Date", */}
         <TableCell>
-          <Typography variant="captionUltra" noWrap>
-            {row.sector}
-          </Typography>
+          <DateTableField date={position.createdOn} />
         </TableCell>
 
         {/* "Buying Price", */}
         <TableCell>
           <Typography variant="captionUltra" noWrap>
-            {fCurrency(row.buyingPrice)}
+            {fCurrency(position.buyingPrice)}
           </Typography>
         </TableCell>
 
-        {/* "Date", */}
-        <TableCell>
-          <DateTableField date={row.createdOn} />
-        </TableCell>
-
-        {/* "Target", */}
+        {/* "Quantity", */}
         <TableCell>
           <Typography variant="captionUltra" noWrap>
-            {fCurrency(row.target || 0)}
-          </Typography>
-        </TableCell>
-
-        {/* "SL", */}
-        <TableCell>
-          <Typography variant="captionUltra" noWrap>
-            {fCurrency(row.sl || 0)}
+            {fNumber(position.qty)}
           </Typography>
         </TableCell>
 
@@ -80,53 +80,48 @@ const PotionsTableRow = ({ row }: Props) => {
             className="flex align-center "
             style={{ justifyContent: "space-between" }}
           >
-            <Typography variant="captionUltra">{fCurrency(row.ltd||0)}</Typography>
-            <Tooltip
-              noTooltip={getCurrentLtpLoading.value}
-              text="Refresh to get real time ltp"
+            <Typography variant="captionUltra">
+              {fCurrency(position.ltd || 0)}
+            </Typography>
+            <LoadingButton
+              size="xsmall"
+              style={{
+                backgroundColor: getCurrentLtpLoading.value
+                  ? ColorSchema().GREY[500]
+                  : ColorSchema().INFO.main,
+              }}
+              loading={getCurrentLtpLoading.value}
+              loadingButtonWidth={1}
+              onClick={getCurrentLtpHandler}
             >
-              {!ltpReceivedTrue.value && (
-                <LoadingButton
-                  size="xsmall"
-                  style={{
-                    backgroundColor: getCurrentLtpLoading.value
-                      ? ColorSchema().GREY[500]
-                      : ColorSchema().INFO.main,
-                  }}
-                  loading={getCurrentLtpLoading.value}
-                  loadingButtonWidth={1}
-                  onClick={getCurrentLtpHandler}
-                >
-                  <RefreshIcon />
-                </LoadingButton>
-              )}
-            </Tooltip>
+              <RefreshIcon />
+            </LoadingButton>
           </div>
-        </TableCell>
-
-        {/* "unit-PL", */}
-        <TableCell>
-          <Typography
-            style={{
-              color: getColorOfValues(row.profit),
-            }}
-            variant="captionUltra"
-            noWrap
-          >
-            {fCurrency(row.profit)}
-          </Typography>
         </TableCell>
 
         {/* "total-PL", */}
         <TableCell>
           <Typography
             style={{
-              color: getColorOfValues(row.totalProfit),
+              color: getColorOfValues(position.totalProfit),
             }}
             variant="captionUltra"
             noWrap
           >
-            {fCurrency(row.totalProfit)}
+            {fCurrency(position.totalProfit)}
+          </Typography>
+        </TableCell>
+
+        {/* "unit-PL", */}
+        <TableCell>
+          <Typography
+            style={{
+              color: getColorOfValues(position.profit),
+            }}
+            variant="captionUltra"
+            noWrap
+          >
+            {fCurrency(position.profit)}
           </Typography>
         </TableCell>
 
@@ -134,12 +129,33 @@ const PotionsTableRow = ({ row }: Props) => {
         <TableCell>
           <Typography
             style={{
-              color: getColorOfValues(row.returnOnInvestment),
+              color: getColorOfValues(position.returnOnInvestment),
             }}
             variant="captionUltra"
             noWrap
           >
-            {fPercent(row.returnOnInvestment)}
+            {fPercent(position.returnOnInvestment)}
+          </Typography>
+        </TableCell>
+
+        {/* "Target", */}
+        <TableCell>
+          <Typography variant="captionUltra" noWrap>
+            {fCurrency(position.target || 0)}
+          </Typography>
+        </TableCell>
+
+        {/* "SL", */}
+        <TableCell>
+          <Typography variant="captionUltra" noWrap>
+            {fCurrency(position.sl || 0)}
+          </Typography>
+        </TableCell>
+
+        {/* "Sector", */}
+        <TableCell>
+          <Typography variant="captionUltra" noWrap>
+            {position.sector}
           </Typography>
         </TableCell>
 
@@ -152,14 +168,14 @@ const PotionsTableRow = ({ row }: Props) => {
               justifyContent: "space-around",
             }}
           >
-            <Tooltip text="Edit">
-              <div onClick={editPositionModal.onTrue}>
-                <EditIcon />
-              </div>
-            </Tooltip>
             <Tooltip text="Close">
               <div onClick={positionCloseModal.onTrue}>
                 <CloseIcon />
+              </div>
+            </Tooltip>
+            <Tooltip text="Edit">
+              <div onClick={editPositionModal.onTrue}>
+                <EditIcon />
               </div>
             </Tooltip>
           </div>
@@ -171,14 +187,15 @@ const PotionsTableRow = ({ row }: Props) => {
           disableStockEdit
           disableSectorEdit
           disableQuantityEdit
-          currentPosition={row}
+          currentPosition={position}
+          otherFunctions={editPositionModal.onFalse}
         />
       </Modal>
       <Modal
         open={positionCloseModal.value}
         onClose={positionCloseModal.onFalse}
       >
-        <ClosePosition position={row} />
+        <ClosePosition onClose={positionCloseModal.onFalse} position={position} />
       </Modal>
     </>
   );

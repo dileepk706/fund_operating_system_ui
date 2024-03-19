@@ -2,7 +2,20 @@ import { ColorSchema } from "../../theme";
 import Button from "../button/Button";
 import Typography from "../typography/Typography";
 
-function TablePagination() {
+type Props = {
+  nextDisabled?: boolean;
+  prevDisabled?: boolean;
+  length: number;
+  page: number;
+  rowsPerPage: Number;
+};
+function TablePagination({
+  length,
+  nextDisabled,
+  page,
+  prevDisabled,
+  rowsPerPage,
+}: Props) {
   return (
     <div
       style={{
@@ -21,7 +34,9 @@ function TablePagination() {
       >
         <div className="flex justify-center align-center gap-1 ">
           <div className="flex justify-center align-center">
-            <Typography variant="captionUltra">1-5 of 100</Typography>
+            <Typography variant="captionUltra">
+              {1 + "-" + length+' '} of {length}
+            </Typography>
           </div>
           <div className="flex justify-center align-center gap-1">
             <Button
@@ -30,6 +45,7 @@ function TablePagination() {
                 backgroundColor: ColorSchema().GREY[300],
                 color: ColorSchema().INFO.main,
               }}
+              disabled={prevDisabled}
             >
               prev
             </Button>
@@ -39,6 +55,7 @@ function TablePagination() {
                 backgroundColor: ColorSchema().GREY[300],
                 color: ColorSchema().PRIMARY.main,
               }}
+              disabled={nextDisabled}
             >
               next
             </Button>

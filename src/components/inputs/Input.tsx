@@ -1,10 +1,11 @@
+import { memo } from "react";
 import Typography from "../typography/Typography";
 
 type Props = {
   onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
   placeholder?: string;
   error?: string;
-  type?: string;
+  type?:  React.HTMLInputTypeAttribute | undefined;
   disabled?: boolean;
   value?: string|number;
 };
@@ -36,7 +37,7 @@ const Input = ({
           padding: "10px 10px 10px 10px",
           border: "1px solid #ccc",
           // borderRadius: "5px",
-          fontSize: "16px",
+          // fontSize: "16px",
           width: "100%",
           boxSizing: "border-box",
         }}
@@ -55,4 +56,4 @@ const Input = ({
   );
 };
 
-export default Input;
+export default memo(Input);
