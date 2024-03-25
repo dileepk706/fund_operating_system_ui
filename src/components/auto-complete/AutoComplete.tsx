@@ -7,7 +7,7 @@ type Props = {
   itemsStringArray: string[];
   setState: (e: string) => void;
   placeHolder?: string;
-  value: string;
+  value?: string;
   disable?: boolean;
   error?:string
 };

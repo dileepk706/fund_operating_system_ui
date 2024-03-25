@@ -36,3 +36,10 @@ export const isValidURL = (url: string): boolean => {
   return urlPattern.test(url);
 };
 
+export function formatCamelCase(input: string) {
+  let formattedString = input.replace(/([a-z])([A-Z])/g, '$1 $2');
+  formattedString = formattedString.replace(/\b\w/g, (match) => match.toUpperCase());
+  return formattedString;
+}
+
+

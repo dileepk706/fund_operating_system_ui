@@ -17,9 +17,13 @@ export interface Position {
   qty: number;
   _id: string;
   tradeInLoss: boolean;
-  totalInvested: number;
+  invested: number;
   currentWorth: number;
   totalProfit: number;
   profit: number;
-  returnOnInvestment:number
+  loss: number;
+  returnOnInvestment: number;
+  holdingPeriodInDays: number;
+  strikeTarget: string[];//value and color
+  strikeSl: string[];//value and color
 }
