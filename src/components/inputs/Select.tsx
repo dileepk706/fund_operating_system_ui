@@ -2,8 +2,8 @@ import { memo } from "react";
 import Typography from "../typography/Typography";
 
 type Props = {
-  value: string;
-  setSate?: (e: string) => void;
+  value?: string;
+  setSate?: (e: any) => void;
   style?: React.CSSProperties;
   itemsArray: string[];
   disabled?: boolean;
@@ -35,7 +35,9 @@ const Select = ({
       ) : null}
       <select
         value={value}
-        onChange={(e) => setSate && setSate(e.target.value)}
+        onChange={(e) =>{
+          setSate && setSate(e.target.value)
+        }}
         style={{
           backgroundColor: "#ffffff",
           border: "1px solid #cccccc",
@@ -45,9 +47,9 @@ const Select = ({
         }}
         disabled={disabled}
       >
-        {placeholder && <option value="">{placeholder}</option>}
+        <option value="" disabled >{placeholder.toLocaleUpperCase()}</option>
         {itemsArray.map((option, index) => (
-          <option key={index} value={option}>
+          <option key={index} value={option} >
             {option}
           </option>
         ))}

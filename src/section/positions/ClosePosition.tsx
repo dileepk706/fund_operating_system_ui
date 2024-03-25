@@ -102,7 +102,7 @@ const ClosePosition = ({ position,onClose }: Props) => {
               <Fields
                 fieldName="Invested Amount"
                 f={fCurrency}
-                value={position.totalInvested}
+                value={position.invested}
               />
 
               <Fields

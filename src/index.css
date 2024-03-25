@@ -57,3 +57,7 @@
 .flex-srink-2 {
   flex-shrink: 2;
  }
+
+ .color {
+  background-color: rebeccapurple;
+ }

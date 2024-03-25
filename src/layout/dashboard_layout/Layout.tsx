@@ -26,7 +26,8 @@ const Layout = ({ children }: Props) => {
   return (
     <div className="flex gap-1 "
     style={{
-      backgroundColor:'whitesmoke'
+      backgroundColor:'whitesmoke',
+
     }}
     >
       <NavVertical measureWidthHandler={measureWidthHandler} />
@@ -35,9 +36,8 @@ const Layout = ({ children }: Props) => {
           margin: `40px 0px 0px ${
             screen === "small" ? "0px" : marginLeft + "px"
           }`,
-          height: "100%",
           width: "100%",
-          paddingBottom:'10px'
+          paddingBottom:'10px',
         }}
         className="flex justify-center"
       >
