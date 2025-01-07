@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Typography from "../../components/typography/Typography";
 import ConfigNavigation from "./ConfigNavigation";
 import Scrollbar from "../../components/scroll_bar/Scrollbar";
@@ -6,6 +6,7 @@ import useScreenSize from "../../hooks/useScreenSize";
 import useBoolean from "../../hooks/useBoolean";
 import { getRoutes } from "../../routes/routes";
 import { useRouter } from "../../hooks/useRoutes";
+import { useTransition } from "react";
 
 const NavSectionVertical = () => {
   const navContent = ConfigNavigation();
@@ -85,21 +86,30 @@ type OptionProps = {
   nav: Record<string, any>;
 };
 const Option = ({ nav }: OptionProps) => {
+  const [isPending, startTransition] = useTransition();
   const routes = useRouter();
   const { pathname } = useLocation();
+  const Nav=useNavigate()
 
   if (pathname === ("/"+getRoutes().logout)) {
     localStorage.removeItem("token");
     routes.push(getRoutes().login);
   }
+  function selectTab() {
+    startTransition(() => {
+      Nav(nav.path);
+    });
+  }
   return (
-    <Link
+    <div
       style={{
         textDecoration: "none",
         color: "inherit",
         cursor: "pointer",
       }}
-      to={nav.path}
+      // to={nav.path}
+      // to={'#'}
+      onClick={selectTab}
     >
       <div
         style={{
@@ -114,6 +124,6 @@ const Option = ({ nav }: OptionProps) => {
           {nav.title}
         </Typography>
       </div>
-    </Link>
+    </div>
   );
 };

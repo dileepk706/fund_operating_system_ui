@@ -27,12 +27,10 @@ api.interceptors.response.use(
     console.log(error.message);
     const originalRequest = error.config;
     if (error.message === "Network Error" && !originalRequest._retry) {
-      window.alert("Bad connection, retrying....");
       originalRequest._retry = true;
       return axios(originalRequest);
     }
     if (error.message === "timeout exceeded" && !originalRequest._retry) {
-      window.alert("timeout exceeded....");
       originalRequest._retry = true;
       return axios(originalRequest);
     }

@@ -12,9 +12,9 @@ type Props = {
 function TablePagination({
   length,
   nextDisabled,
-  page,
+  // page,
   prevDisabled,
-  rowsPerPage,
+  // rowsPerPage,
 }: Props) {
   return (
     <div

@@ -22,7 +22,7 @@ const LoginView = () => {
     setError("");
     loading.onTrue();
     try {
-      const { data } = await api.post(APIs().login, {
+      const { data } = await api.post(APIs.login, {
         email,
         password,
       });
@@ -71,6 +71,7 @@ const LoginView = () => {
               placeholder="Email"
               error={error}
               type="email"
+              value={email}
             />
             <Input
               onChange={(e) => {
@@ -78,6 +79,7 @@ const LoginView = () => {
               }}
               placeholder="Password"
               type="password"
+              value={password}
             />
 
             <LoadingButton

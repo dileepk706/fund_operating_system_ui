@@ -24,7 +24,7 @@ const SignUpView = () => {
     setError("");
     loading.onTrue();
     try {
-      const { data } = await api.post(APIs().signup, {
+      const { data } = await api.post(APIs.signup, {
         email,
         password,
         name,
@@ -50,7 +50,7 @@ const SignUpView = () => {
         height: "100vh",
       }}
     >
-        <Typography variant="subtitle1" >Sign up</Typography>
+      <Typography variant="subtitle1">Sign up</Typography>
       {error && (
         <Typography
           style={{ margin: "5px 0", color: "red" }}
@@ -100,10 +100,11 @@ const SignUpView = () => {
             <LoadingButton
               style={{ backgroundColor: ColorSchema().SUCCESS.main }}
               size="small"
-              label="Submit"
               onClick={onSubmit}
               loading={loading.value}
-            ></LoadingButton>
+            >
+              Submit
+            </LoadingButton>
             <CustomLink to={`/${getRoutes().login}`}>Login</CustomLink>
           </form>
         </div>
@@ -113,4 +114,3 @@ const SignUpView = () => {
 };
 
 export default SignUpView;
-

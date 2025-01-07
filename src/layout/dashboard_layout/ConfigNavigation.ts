@@ -20,10 +20,6 @@ const ConfigNavigation = () => {
         path:'/profit-and-loss-report'
     },
     {
-        title:'Add Fund',
-        path:'/add-fund'
-    },
-    {
         title:'Transactions Timeline',
         path:'/transactions-history'
     },

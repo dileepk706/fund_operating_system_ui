@@ -1,4 +1,3 @@
-import { Orderby, Sortby } from "../../api/APIs";
 import DateTableField from "../../components/table/DateTableField";
 import TableCell from "../../components/table/TableCell";
 import TableRow from "../../components/table/TableRow";

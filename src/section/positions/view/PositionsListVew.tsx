@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Card from "../../../components/cards/Card";
 import PageHeadline from "../../../components/headline/PageHeadline";
 import NotFound from "../../../components/no-data/NotFound";

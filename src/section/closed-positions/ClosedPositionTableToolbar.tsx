@@ -5,7 +5,6 @@ import AutoComplete from "../../components/auto-complete/AutoComplete";
 import Button from "../../components/button/Button";
 import Select from "../../components/inputs/Select";
 import TableToolbar from "../../components/table/TableToolbar";
-import useBoolean from "../../hooks/useBoolean";
 import { NSE_REG_STOCKS, niftyIndexNames } from "../../utils/indices";
 
 type Props = {
@@ -20,10 +19,9 @@ type Props = {
   filterName: (filter: string) => void;
   filterSector: (filter: string) => void;
   filterOptions: any;
-  isFilterChanged:boolean
+  isFilterChanged: boolean;
 };
 const ClosedPositionTableToolbar = ({
-  setRefresh,
   setOrderByHelper,
   setSortHelper,
   onOpenDateRangeSelector,
@@ -36,21 +34,19 @@ const ClosedPositionTableToolbar = ({
   filterOptions,
   isFilterChanged,
 }: Props) => {
-  const getCurrentLtpLoading = useBoolean();
-
   const [filterProfitLoss, setFilterProfitLoss] = useState("");
   const [filterTargetSl, setFilterTargetSl] = useState("");
- 
+
   const setStockNameHandler = (v: string) => {
     filterName(v);
   };
 
-  useEffect(()=>{
-    if(!isFilterChanged){
-      setFilterTargetSl('')
-      setFilterProfitLoss('')
+  useEffect(() => {
+    if (!isFilterChanged) {
+      setFilterTargetSl("");
+      setFilterProfitLoss("");
     }
-  },[isFilterChanged])
+  }, [isFilterChanged]);
 
   const filter_profit_loss = (e: string) => {
     setFilterProfitLoss(e);
@@ -126,7 +122,6 @@ const ClosedPositionTableToolbar = ({
             <CalendarIcon /> Date Range
           </div>
         </Button>
-        
       </TableToolbar>
     </>
   );

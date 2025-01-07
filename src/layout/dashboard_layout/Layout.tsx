@@ -38,6 +38,7 @@ const Layout = ({ children }: Props) => {
           }`,
           width: "100%",
           paddingBottom:'10px',
+          minHeight:'94.5vh'
         }}
         className="flex justify-center"
       >

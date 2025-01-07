@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import Typography from "../../components/typography/Typography";
+import TransactionsView from "../../section/transactions/view/TransactionsView";
 
 const Transaction = () => {
   return (
@@ -7,7 +7,7 @@ const Transaction = () => {
       <Helmet>
         <title>Transactions</title>
       </Helmet>
-      <Typography>coming soon</Typography>
+      <TransactionsView/>
     </>
   );
 };

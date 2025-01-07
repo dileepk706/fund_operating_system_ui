@@ -11,7 +11,7 @@ type Props = {
   disabled?:boolean
 };
 
-const Button = ({ onClick, children, size, style,disabled, variant }: Props) => {
+const Button = ({ onClick, children, size, style,disabled,  }: Props) => {
   const [isActive, setIsActive] = useState(false);
 
   const Size =

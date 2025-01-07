@@ -9,7 +9,7 @@ import ClosedPositionTableToolbar from "../ClosedPositionTableToolbar";
 import ClosedPositionTableRow from "../ClosedPositionTableRow";
 import useGetClosedPositions from "../useGetClosedPositions";
 import useFromAndTo from "../../../hooks/useFromAndTo";
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useCallback,  useReducer, useState } from "react";
 import { Orderby, Sortby } from "../../../api/APIs";
 import DateRangeSelector from "../../../components/calendar/DateRangeSelector";
 import Button from "../../../components/button/Button";

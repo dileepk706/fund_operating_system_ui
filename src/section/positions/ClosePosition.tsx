@@ -3,7 +3,6 @@ import { APIs } from "../../api/APIs";
 import { api } from "../../api/axios";
 import LoadingButton from "../../components/button/LoadingButton";
 import Alert from "../../components/modal/Alert";
-import Typography from "../../components/typography/Typography";
 import useBoolean from "../../hooks/useBoolean";
 import { ColorSchema } from "../../theme";
 import { Position } from "../../types/position/position";

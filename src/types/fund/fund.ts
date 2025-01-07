@@ -13,6 +13,8 @@ export interface TransactionHistory{
   note:string,
   position?:string
   investor: Investor;
-  createdOn?: number; 
-  updatedOn?: number;
+  createdOn: number; 
+  updatedOn: number;
+  _id:string
+  fundAtTheTime:number
 }
